@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.9.0">
+  <bpmn:process id="http-process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_0eipepo</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0eipepo" sourceRef="StartEvent_1" targetRef="Task_1bz8ira" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ys0uvc" sourceRef="Task_1bz8ira" targetRef="Task_0nen2zg" />
+    <bpmn:endEvent id="EndEvent_0khkd3m">
+      <bpmn:incoming>SequenceFlow_1cud3x3</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1cud3x3" sourceRef="Task_0nen2zg" targetRef="EndEvent_0khkd3m" />
+    <bpmn:serviceTask id="Task_1bz8ira" name="Make Request">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition retries="3" type="http-request"/>
+        <zeebe:taskHeaders>
+          <zeebe:header key="url" value="HTTP://API.SHOUTCLOUD.IO/V1/SHOUT"/>
+          <zeebe:header key="method" value="POST"/>
+        </zeebe:taskHeaders>
+        <zeebe:ioMapping>
+          <zeebe:input source="$.message" target="$.INPUT"/>
+          <zeebe:output source="$.OUTPUT" target="$.shoutout-message"/>
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0eipepo</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ys0uvc</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_0nen2zg" name="Print Payload">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition retries="3" type="print-payload"/>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0ys0uvc</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1cud3x3</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0eipepo_di" bpmnElement="SequenceFlow_0eipepo">
+        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="277" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="243" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ys0uvc_di" bpmnElement="SequenceFlow_0ys0uvc">
+        <di:waypoint xsi:type="dc:Point" x="377" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="438" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="407.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0khkd3m_di" bpmnElement="EndEvent_0khkd3m">
+        <dc:Bounds x="584" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="602" y="142" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1cud3x3_di" bpmnElement="SequenceFlow_1cud3x3">
+        <di:waypoint xsi:type="dc:Point" x="538" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="584" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="561" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0l966i0_di" bpmnElement="Task_1bz8ira">
+        <dc:Bounds x="277" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1p65red_di" bpmnElement="Task_0nen2zg">
+        <dc:Bounds x="438" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
